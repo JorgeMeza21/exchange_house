@@ -9,5 +9,6 @@ public interface IExchgTypeService {
 	public Iterable<ExchangeType> findAll();
 	public Optional<ExchangeType> findById(Long id);
 	public Iterable<ExchangeType> findBySourceCurrency(String isoCode);
+	public Optional<ExchangeType> findByCurrencies(String isoCodeSource, String isoCodeFinal);
 	public ExchangeType save(ExchangeType excType);
 }

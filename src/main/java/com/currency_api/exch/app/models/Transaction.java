@@ -34,16 +34,16 @@ public class Transaction {
 	@JoinColumn(name = "exchange_id")
 	private ExchangeType exchangeType;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	@JsonIgnoreProperties(value = "transactions")
 	private User user;
 	
-	public Transaction(Double amountToChange, Double amountChanged, Date createAt, ExchangeType exchangeType) {
+	public Transaction(Double amountToChange, Double amountChanged, ExchangeType exchangeType, User user) {
 		this.amountToChange = amountToChange;
 		this.amountChanged = amountChanged;
-		this.createAt = createAt;
 		this.exchangeType = exchangeType;
+		this.user = user;
 	}
 	
 	public Transaction() {}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ServerWebExchange;
 
 import com.currency_api.exch.app.models.ExchangeType;
 import com.currency_api.exch.app.models.Role;
@@ -79,19 +80,22 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	@Transactional
-	public Transaction convertAmount(String isoCurrOrigin, String isoCurrFinal, Double amountToChange) {
+	public Transaction convertAmount(ExchangeType ext, Double amountToChange, String userName) {
 		
-		ExchangeType exchangeRate = exchTypeRepo.getExchangeRate(isoCurrOrigin, isoCurrFinal);
+		Double finalAmount = ext.getConversion() * amountToChange;
+		Optional<User> user = findByUserName(userName);
 		
-		if(exchangeRate == null)
-			return null;
-		
-		Double finalAmount = exchangeRate.getConversion() * amountToChange;
-		Transaction t = new Transaction(amountToChange, finalAmount, new Date(), exchangeRate);
+		Transaction t = new Transaction(amountToChange, finalAmount, ext, user.get());
+		t.setCreateAt(new Date());
 		
 		return transacRepo.save(t);
 	}
-	
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<User> findByUserName(String userName) {
+		return repository.findByUserName(userName);
+	}
+		
 }
 

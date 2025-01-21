@@ -12,10 +12,15 @@ import reactor.core.publisher.Mono;
 public class AuthConverter implements ServerAuthenticationConverter{
 
 	@Override
-	public Mono<Authentication> convert(ServerWebExchange exchange) {		
+	public Mono<Authentication> convert(ServerWebExchange exchange) {
+		
 		return Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION))
 				.filter(h -> h.startsWith("Bearer "))
-				.map(h -> h.substring(7))
+				.map(h -> {
+					String finalToken = h.substring(7);
+					exchange.getAttributes().put("token", finalToken);
+					return finalToken;
+				})
 				.map(h -> new BearerToken(h));
 	}
 	

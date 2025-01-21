@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.currency_api.exch.app.models.Transaction;
+import com.currency_api.exch.app.security.JwtTokenProvider;
 import com.currency_api.exch.app.services.ITransactionService;
 
 import reactor.core.publisher.Flux;
@@ -19,7 +20,7 @@ public class TransactionHandler {
 
 	@Autowired
 	private ITransactionService service;
-
+	
 	public Mono<ServerResponse> findAll(ServerRequest request) {
 		return ServerResponse.ok().body(Flux.fromIterable(service.findAll()), Transaction.class);
 	}
@@ -57,12 +58,4 @@ public class TransactionHandler {
 		return ServerResponse.ok().body(Flux.fromIterable(service.findByUser(userId)), Transaction.class);
 	}
 	
-	public Mono<ServerResponse> convertAmount(ServerRequest request) {
-		String isoSouceCurr = request.pathVariable("isoSourceCurr");
-		String isoFinalCurr = request.pathVariable("isoFinalCurr");
-		Long amount = Long.valueOf(request.pathVariable("amount"));
-
-		return null;
-	}
-
 }

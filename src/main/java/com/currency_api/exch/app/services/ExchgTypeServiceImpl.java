@@ -38,5 +38,10 @@ public class ExchgTypeServiceImpl implements IExchgTypeService {
 	public Iterable<ExchangeType> findBySourceCurrency(String isoCode) {
 		return repository.findBySourceCurrency(isoCode);
 	}
+
+	@Override
+	public Optional<ExchangeType> findByCurrencies(String isoCodeSource, String isoCodeFinal) {
+		return repository.getExchangeRate(isoCodeSource, isoCodeFinal);
+	}
 	
 }
