@@ -27,8 +27,10 @@ public class RouterFunctionsConfig {
 				.andRoute(GET("/api/users/{id}"), userHandler::findById)
 				.andRoute(POST("/api/users"), userHandler::save)
 				.andRoute(POST("/api/users/exchangeMoney/{isoSourceCurr}/{isoFinalCurr}/{amount}"), userHandler::convertAmount)
-				.andRoute(GET("/api/transactions"), transacHandler::findAll);
-		
+				.andRoute(GET("/api/transactions"), transacHandler::findAll)
+				.andRoute(GET("/api/transactions/{id}"), transacHandler::findById)
+				.andRoute(GET("/api/transactions/by_user/{user_id}"), transacHandler::findByUser);
+
 	}
 	
 }

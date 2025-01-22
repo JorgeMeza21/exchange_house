@@ -34,9 +34,6 @@ public class UserServiceImpl implements IUserService{
 	private TransactionRepository transacRepo;
 	
 	@Autowired
-	private ExchangeTypeRepository exchTypeRepo;
-	
-	@Autowired
 	private PasswordEncoder encoder;
 
 	@Override

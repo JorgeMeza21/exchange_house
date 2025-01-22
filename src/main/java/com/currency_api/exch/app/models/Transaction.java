@@ -13,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +20,7 @@ import jakarta.persistence.Table;
 public class Transaction {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private Double amountToChange;
@@ -30,7 +29,7 @@ public class Transaction {
 	@DateTimeFormat
 	private Date createAt;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "exchange_id")
 	private ExchangeType exchangeType;
 	
